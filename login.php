@@ -23,6 +23,10 @@
 </section>
 
 <div>
+  <a href="resetPassword.php">Forgot your password?</a>
+</div>
+
+<div>
   <h4>Don't have an account?</h4>
   <a href="createAccount.php">Create Account</a>
 </div>
