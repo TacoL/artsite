@@ -51,8 +51,12 @@ if (isset($_POST["submitResetPassword"])) {
   $headers .= "Reply-To: artsite@gmail.com\r\n";
   $headers .= "Content-type: text/html\r\n";
 
-  mail($to, $subject, $message, $headers);
-  header("location: ../resetPassword.php?reset=success");
+  if (mail($to, $subject, $message, $headers)) {
+    header("location: ../resetPassword.php?reset=success");
+  }
+  else {
+    header("location: ../resetPassword.php?reset=fail");
+  }
 }
 else {
   header("location: ../resetPassword.php?reset=fail");
