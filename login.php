@@ -43,6 +43,14 @@
       echo "<p>Something went wrong, please try again!</p>";
     }
   }
+  else if (isset($_GET["newPassword"])) {
+    if ($_GET["newPassword"] == "updated") {
+      echo "<p>Your password has been updated!</p>";
+    }
+    else {
+      echo "<p>Something went wrong, please try again!</p>";
+    }
+  }
 
   include_once 'footer.php'
 ?>

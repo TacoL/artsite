@@ -1,5 +1,6 @@
 <?php
 
+//note: when uploading website to the internet, make sure to change the database credentials below
 $serverName = "localhost";
 $databaseUsername = "root";
 $databasePassword = "";
