@@ -95,7 +95,7 @@ if (isset($_POST["submit"])) {
 
   //do we need?
   mysqli_stmt_close($preparedStatement);
-  mysqli_close();
+  mysqli_close($conn);
 }
 else {
   header("location: ../index.php");
