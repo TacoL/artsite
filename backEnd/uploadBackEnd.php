@@ -1,4 +1,6 @@
 <?php
+session_start();
+$userId = $_SESSION["userId"];
 
 if (isset($_POST["submit"])) {
   $file = $_FILES['file'];
@@ -17,9 +19,11 @@ if (isset($_POST["submit"])) {
   if (in_array($fileActualExt, $allowed)) {
     if ($fileError === 0) {
       if ($fileSize < 100*1048576) { //100 MB
-        $newFileName = uniqid('', true) . "." . $fileActualExt;
-         //makes a name based on the timestamp of the upload
-         $fileDestination = '../Uploads/' . $newFileName;
+        $newFileName = uniqid('', true) . "." . $fileActualExt; //makes a name based on the timestamp of the upload
+         if (!file_exists('../Uploads/' . $userId)) {
+           mkdir('../Uploads/' . $userId);
+         }
+         $fileDestination = '../Uploads/' . $userId . '/' . $newFileName;
          move_uploaded_file($fileTmpName, $fileDestination);
          header("location: ../upload.php?uploadsuccess");
          exit();
