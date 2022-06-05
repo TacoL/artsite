@@ -3,6 +3,13 @@ session_start();
 $userId = $_SESSION["userId"];
 
 if (isset($_POST["submit"])) {
+  $pieceName = $_POST["pieceName"];
+
+  if (empty($pieceName)) {
+    header("location: ../upload.php?error=noName");
+    exit();
+  }
+  
   $file = $_FILES['file'];
 
   $fileName = $file['name'];
@@ -19,11 +26,12 @@ if (isset($_POST["submit"])) {
   if (in_array($fileActualExt, $allowed)) {
     if ($fileError === 0) {
       if ($fileSize < 100*1048576) { //100 MB
-        $newFileName = uniqid('', true) . "." . $fileActualExt; //makes a name based on the timestamp of the upload
+        $fileId = uniqid('', true) . "." . $fileActualExt; //makes an id based on the timestamp of the upload
          if (!file_exists('../Uploads/' . $userId)) {
            mkdir('../Uploads/' . $userId);
          }
-         $fileDestination = '../Uploads/' . $userId . '/' . $newFileName;
+         mkdir('../Uploads/' . $userId . '/' . $pieceName);
+         $fileDestination = '../Uploads/' . $userId . '/' . $pieceName . '/' . $fileId;
          move_uploaded_file($fileTmpName, $fileDestination);
          header("location: ../upload.php?uploadsuccess");
          exit();

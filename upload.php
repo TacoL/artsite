@@ -16,6 +16,7 @@
 <p>File types allowed: jpg, jpeg, png</p>
 <p>Max Upload Size: 100 MB</p>
 <form action="backEnd/uploadBackEnd.php" method="post" enctype="multipart/form-data">
+  <input name="pieceName" type="text" placeholder="Piece Name">
   <input name="file" type="file">
   <button name="submit" type="submit">Upload</button>
 </form>
@@ -23,14 +24,18 @@
 <?php
 
   if (isset($_GET["error"])) {
-    if ($_GET["error"] == "invalidtype") {
+    $errorName = $_GET["error"];
+    if ($errorName == "invalidtype") {
       echo "<p>Invalid file type!</p>";
     }
-    else if ($_GET["error"] == "error") {
+    else if ($errorName == "error") {
       echo "<p>There was an error uploading your file</p>";
     }
-    else if ($_GET["error"] == "sizeexceedslimit") {
+    else if ($errorName == "sizeexceedslimit") {
       echo "<p>File size cannot exceed 100 MB</p>";
+    }
+    else if ($errorName == "noName") {
+      echo "<p>File has no name</p>";
     }
     else {
       echo "<p>There was an error</p>";
