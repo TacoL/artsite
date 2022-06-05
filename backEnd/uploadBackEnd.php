@@ -4,12 +4,14 @@ $userId = $_SESSION["userId"];
 
 if (isset($_POST["submit"])) {
   $pieceName = $_POST["pieceName"];
+  $description = $_POST["description"];
+  $privateBool = $_POST["privateBool"];
 
-  if (empty($pieceName)) {
+  if (empty($pieceName) || empty($description)) {
     header("location: ../upload.php?error=noName");
     exit();
   }
-  
+
   $file = $_FILES['file'];
 
   $fileName = $file['name'];
@@ -26,15 +28,33 @@ if (isset($_POST["submit"])) {
   if (in_array($fileActualExt, $allowed)) {
     if ($fileError === 0) {
       if ($fileSize < 100*1048576) { //100 MB
-        $fileId = uniqid('', true) . "." . $fileActualExt; //makes an id based on the timestamp of the upload
-         if (!file_exists('../Uploads/' . $userId)) {
-           mkdir('../Uploads/' . $userId);
-         }
-         mkdir('../Uploads/' . $userId . '/' . $pieceName);
-         $fileDestination = '../Uploads/' . $userId . '/' . $pieceName . '/' . $fileId;
-         move_uploaded_file($fileTmpName, $fileDestination);
-         header("location: ../upload.php?uploadsuccess");
-         exit();
+        require_once 'databaseHandler.php'; //connect to the database
+
+        $sql = "INSERT INTO pieces (artistId, name, description, private) VALUES (?, ?, ?, ?)";
+        $preparedStatement = mysqli_stmt_init($conn);
+
+        if (!mysqli_stmt_prepare($preparedStatement, $sql)) {
+          header("location: ../createAccount.php?error=stmtfailed");
+          exit();
+        }
+
+        $boolToSend;
+        if (empty($privateBool)) {
+          $boolToSend = 0;
+        }
+        else if ($privateBool == "on") {
+          $boolToSend = 1;
+        }
+
+        mysqli_stmt_bind_param($preparedStatement, "issi", $userId, $pieceName, $description, $boolToSend);
+        mysqli_stmt_execute($preparedStatement);
+        mysqli_stmt_close($preparedStatement);
+
+        $fileId = mysqli_insert_id($conn);
+        $fileDestination = '../Uploads/' . $fileId . '.' . $fileActualExt;
+        move_uploaded_file($fileTmpName, $fileDestination);
+        header("location: ../upload.php?uploadsuccess");
+        exit();
       }
       else {
         header("location: ../upload.php?error=sizeexceedslimit");

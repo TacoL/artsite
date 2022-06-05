@@ -16,7 +16,12 @@
 <p>File types allowed: jpg, jpeg, png</p>
 <p>Max Upload Size: 100 MB</p>
 <form action="backEnd/uploadBackEnd.php" method="post" enctype="multipart/form-data">
-  <input name="pieceName" type="text" placeholder="Piece Name">
+  <input name="pieceName" type="text" placeholder="Piece Name" maxlength="128">
+  <input name="description" type="text" placeholder="Description" maxlength="1000">
+  <br>
+  <p>Private?</p>
+  <input name="privateBool" type="checkbox">
+  <br><br>
   <input name="file" type="file">
   <button name="submit" type="submit">Upload</button>
 </form>
@@ -35,7 +40,7 @@
       echo "<p>File size cannot exceed 100 MB</p>";
     }
     else if ($errorName == "noName") {
-      echo "<p>File has no name</p>";
+      echo "<p>Piece name or description are empty!</p>";
     }
     else {
       echo "<p>There was an error</p>";
