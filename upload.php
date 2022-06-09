@@ -19,6 +19,9 @@
   <input name="pieceName" type="text" placeholder="Piece Name" maxlength="128">
   <input name="description" type="text" placeholder="Description" maxlength="1000">
   <br>
+  <p>Separate tags using commas: "tag1,tag2, ..."</p>
+  <input name="tags" type="text" placeholder="Tags" maxlength="70">
+  <br>
   <p>Private?</p>
   <input name="privateBool" type="checkbox">
   <br><br>

@@ -22,6 +22,7 @@
     <input name="confirmPassword" type="password" placeholder="Confirm Password">
     <button name="submit" type="submit">Create Account</button>
   </form>
+  <p>Note: One account per email address</p>
 </section>
 
 <?php
